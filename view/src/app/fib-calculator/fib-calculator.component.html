@@ -1,0 +1,28 @@
+<label>Enter your index:</label>
+
+<input type="text" pInputText [(ngModel)]="id"/> 
+<p-button label="Get Values!!!" (onClick)="handleClick($event)"></p-button>
+
+<!-- Just text module will not work, have to include formsmodule as well-->
+
+<h3>Indexes I have seen:</h3>
+{{numbers| join:','}}
+
+<h3> Calculated values are:</h3>
+
+
+<p-table [value]="calValues">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Input</th>
+            <th>Sum values</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-calVal>
+        <tr>
+            <td>{{calVal.inp}}</td>
+            <td>{{calVal.fibVal}}</td>
+        </tr>
+    </ng-template>
+</p-table>
+

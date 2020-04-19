@@ -1,0 +1,11 @@
+version: '3'
+services:
+  view: 
+    stdin_open: true
+    build: ./view
+    image: prasunmax/angularbase
+    volumes: 
+      - /app/node_modules
+      - ./view/src:/app/src
+    ports:
+      - '4200:4200'
