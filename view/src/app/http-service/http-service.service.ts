@@ -20,7 +20,7 @@ export class HttpServiceService {
     let searchParams = new HttpParams();
     searchParams = searchParams.append('print', 'pretty');
     searchParams = searchParams.append('custom', 'key');
-    return this.httpClient.get<{ [id: number]: FibVal }>('/api/values/current', {
+    return this.httpClient.get<{ [id: string]: FibVal }>('/api/values/current', {
       /* Optional parameter added for docuemntation purposes  */
       headers: new HttpHeaders({ 'Custom-Header': 'Hello' }),
       params: searchParams,
@@ -31,7 +31,7 @@ export class HttpServiceService {
         const postsArray: FibVal[] = [];
         for (const key in responseData) {
           if (responseData.hasOwnProperty(key)) {
-            postsArray.push({ ...responseData[key], index: key });
+            postsArray.push({ "index": key, "fibVal":responseData[key].toString() });
           }
         }
         return postsArray;
@@ -44,7 +44,22 @@ export class HttpServiceService {
   }
 
   public fetchIndexes() {
-    return this.httpClient.get('/api/values/all');
+    return this.httpClient.get('/api/values/all')
+    .pipe(
+      map(responseData => {
+        const postsArray= [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            postsArray.push(responseData[key]["number"]);
+          }
+        }
+        return postsArray;
+      }),
+      catchError(errorRes => {
+        // Send to analytics server
+        return throwError(errorRes);
+      })
+    );
   }
 
   public postData(id: string) {
