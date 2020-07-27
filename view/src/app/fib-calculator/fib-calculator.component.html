@@ -1,8 +1,9 @@
-<label>Enter your index:</label>
+<form #postForm="ngForm" (ngSubmit)="onCreatePost(postForm.value)">
+    <label>Enter your index:</label>
 
-<input type="text" pInputText [(ngModel)]="id"/> 
-<p-button label="Get Values!!!" (onClick)="handleClick($event)"></p-button>
-
+    <input required type="text" pattern="[0-9]{1,2}" pInputText [(ngModel)]="id" name="id" />
+    <p-button type="submit" [disabled]="!postForm.valid" label="Get Values!!!"></p-button>
+</form>
 <!-- Just text module will not work, have to include formsmodule as well-->
 
 <h3>Indexes I have seen:</h3>
@@ -25,4 +26,3 @@
         </tr>
     </ng-template>
 </p-table>
-

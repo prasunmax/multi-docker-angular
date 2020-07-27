@@ -1,0 +1,15 @@
+FROM node:12.16.2-alpine
+
+WORKDIR '/app/'
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+# The reason this is crucial is that without it, the angular process is only listening on the localhost interface inside the container 
+# - so even with the docker port mapping, connections from outside the container aren't being received.
+# https://stackoverflow.com/questions/46778868/ng-serve-not-working-in-docker-container
+# becaue we have opened all ports, we need to  disable host check
+CMD ["npm", "start", "--", "--host", "0.0.0.0", "--poll", "500", "--disable-host-check"]
+#CMD ["npm","start"]

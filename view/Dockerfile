@@ -1,12 +1,14 @@
-FROM node:12.16.2-alpine
+FROM node:alpine as builder
 
-WORKDIR '/app/'
+WORKDIR '/app'
 
-COPY package.json .
+COPY ./package.json ./
 
 RUN npm install
-
 COPY . .
+RUN npm run build
 
-CMD ["npm", "start", "--", "--host", "0.0.0.0", "--poll", "500"]
-#CMD ["npm","start"]
+FROM nginx
+EXPOSE 4200
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/dist /usr/share/nginx/html

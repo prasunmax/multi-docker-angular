@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpServiceService } from '../http-service/http-service.service';
 import { FibVal } from './fib-val';
 
-
+import { Post } from './post.model';
 
 @Component({
   selector: 'app-fib-calculator',
@@ -11,6 +11,7 @@ import { FibVal } from './fib-val';
 })
 export class FibCalculatorComponent implements OnInit {
   calValues: FibVal[];
+  isFetching = false;
   fval:FibVal;
   //numbers: number[];
   numbers=[2,3,4,5];
@@ -19,11 +20,18 @@ export class FibCalculatorComponent implements OnInit {
   constructor(private httpService: HttpServiceService) { }
 
   ngOnInit(): void {
-    this.fval = new FibVal();
+    
 
   }
   
   public handleClick(ev){
 
+  }
+  onCreatePost(postData: {id:string}) {
+    // Send Http request
+    //this.postsService.createAndStorePost(postData.title, postData.content);
+    //console.log(postData);
+    this.httpService.postData(postData.id);
+    postData.id='';
   }
 }

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -13,11 +13,15 @@ import {ButtonModule} from 'primeng/button';
 
 import { JoinPipe } from './join.pipe';
 
+import { LoggingInterceptorService } from './http-service/logging-interceptor.service';
+import { NumbersOnly } from './common/numbersOnly';
+
 @NgModule({
   declarations: [
     AppComponent,
     FibCalculatorComponent,
-    JoinPipe
+    JoinPipe,
+    NumbersOnly
   ],
   imports: [
     BrowserModule,
@@ -27,7 +31,11 @@ import { JoinPipe } from './join.pipe';
     FormsModule,
     ButtonModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: LoggingInterceptorService,
+    multi: true
+  },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

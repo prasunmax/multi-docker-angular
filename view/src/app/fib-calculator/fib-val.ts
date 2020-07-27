@@ -1,4 +1,4 @@
-export class FibVal {
-    inp;
-    fibVal;
+export interface FibVal {
+    index: string;
+    fibVal?: number;
 }
